@@ -146,13 +146,32 @@ function loadTagBackground() {
   if (!imgEl) return Promise.resolve();
 
   _tagBackgroundPromise = new Promise((resolve) => {
-    imgEl.crossOrigin = "anonymous";
-    imgEl.onload = () => resolve();
-    imgEl.onerror = () => {
-      console.warn("Could not load ./tag.png");
-      resolve();
+    const candidates = [
+      "./tag.png",
+      "tag.png",
+      "./hangtag2.png",
+      "hangtag2.png",
+    ];
+
+    const tryLoad = (idx) => {
+      if (idx >= candidates.length) {
+        console.warn("Could not load any tag background image.");
+        resolve();
+        return;
+      }
+
+      const src = candidates[idx];
+      const probe = new Image();
+      probe.crossOrigin = "anonymous";
+      probe.onload = () => {
+        imgEl.src = src;
+        resolve();
+      };
+      probe.onerror = () => tryLoad(idx + 1);
+      probe.src = src;
     };
-    imgEl.src = "./tag.png";
+
+    tryLoad(0);
   });
 
   return _tagBackgroundPromise;
