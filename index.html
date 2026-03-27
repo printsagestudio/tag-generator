@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Tag Studio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Jost:wght@200;300;400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <span class="brand">Tag & Bloom</span>
+      <span class="brand-sub">Custom Wedding Tags · Printed with Love</span>
+    </header>
+
+    <div class="studio">
+      <!-- LEFT FORM -->
+      <div class="form-panel">
+        <h2>Create Your Tag</h2>
+        <p class="sub">Personalize the design below — the preview updates live as you type.</p>
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <span class="step-label">Couple's Names</span>
+            <div class="name-row">
+              <input
+                type="text"
+                id="name1"
+                placeholder="Taylor"
+                maxlength="18"
+                oninput="updateTag()"
+              />
+              <div class="ampersand">&amp;</div>
+              <input
+                type="text"
+                id="name2"
+                placeholder="Cynthia"
+                maxlength="18"
+                oninput="updateTag()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <span class="step-label">Wedding Date</span>
+            <input type="date" id="wdate" oninput="updateTag()" />
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <span class="step-label">
+              Tagline
+              <span style="opacity: 0.5; font-weight: 300; text-transform: none; letter-spacing: 0">
+                (optional)
+              </span>
+            </span>
+            <input
+              type="text"
+              id="tagline"
+              class="tagline-input"
+              placeholder="Forever starts today"
+              maxlength="30"
+              oninput="updateTag()"
+            />
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <button class="btn-download-pdf" id="btnDownload" onclick="generatePDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download PDF
+          </button>
+          <p class="dl-note">A4 · 12 tags per sheet · High-resolution · Print-ready</p>
+        </div>
+      </div>
+
+      <!-- RIGHT PREVIEW -->
+      <div class="preview-panel">
+        <p class="preview-label">✦ Live Preview ✦</p>
+
+        <div class="tag-wrapper">
+          <div class="tag" id="theTag">
+            <div class="tag-bg" id="tagBg"></div>
+            <div class="tag-hole"></div>
+            <div class="tag-content">
+              <span class="tag-couple" id="preview-couple">Taylor &amp; Cynthia</span>
+              <span class="tag-date" id="preview-date">12 | 22 | 2030</span>
+              <span class="tag-tagline" id="preview-tagline">Forever starts today</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-meta">
+          <span>Print size: 3" × 5"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
+
