@@ -65,9 +65,7 @@ async function generatePDF() {
     const canvas = await html2canvas(tagEl, {
       scale,
       useCORS: true,
-      // If the external background image doesn't have perfect CORS headers,
-      // html2canvas may otherwise fail. Allowing taint is needed for local assets.
-      allowTaint: true,
+      allowTaint: false,
       backgroundColor: null,
       logging: false,
     });
@@ -144,23 +142,17 @@ let _tagBackgroundPromise = null;
 function loadTagBackground() {
   if (_tagBackgroundPromise) return _tagBackgroundPromise;
 
-  const tagBg = document.getElementById("tagBg");
-  if (!tagBg) return Promise.resolve();
+  const imgEl = document.getElementById("tagBgImg");
+  if (!imgEl) return Promise.resolve();
 
   _tagBackgroundPromise = new Promise((resolve) => {
-    const img = new Image();
-    // Same-origin/cors hint for html2canvas/canvas reads.
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      tagBg.style.backgroundImage = 'url("./tag.png")';
-      resolve();
-    };
-    img.onerror = () => {
-      // If the image isn't available, still allow PDF generation.
+    imgEl.crossOrigin = "anonymous";
+    imgEl.onload = () => resolve();
+    imgEl.onerror = () => {
       console.warn("Could not load ./tag.png");
       resolve();
     };
-    img.src = "./tag.png";
+    imgEl.src = "./tag.png";
   });
 
   return _tagBackgroundPromise;
